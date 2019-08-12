@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+scriptDir=`dirname $0`
 function install_laradock() {
   git init
   print_msg_org "Install Laradock from Github....."
@@ -76,12 +77,10 @@ function select_database() {
   print_msg_ble "$REPLY ) $ANS"
 
   if [[ $REPLY -eq 1 ]]; then
-    echo "MySQL $REPLY"
     replace_env "MYSQL_VERSION=latest" "MYSQL_VERSION=5.7"
     docker-compose up -d nginx mysql phpmyadmin
     composer_init $REPLY
   elif [[ $REPLY -eq 2 ]]; then
-    echo "PostgresSQL $REPLY"
     replace_env "WORKSPACE_INSTALL_PG_CLIENT=false" "WORKSPACE_INSTALL_PG_CLIENT=true"
     replace_env "PHP_FPM_INSTALL_MYSQLI=true" "PHP_FPM_INSTALL_MYSQLI=false"
     replace_env "PHP_FPM_INSTALL_PGSQL=false" "PHP_FPM_INSTALL_PGSQL=true"
@@ -94,7 +93,7 @@ function select_database() {
 
 
 function composer_init() {
-  cp ../init.sh ../src
+  cp $scriptDir/init.sh ../src
   docker-compose exec workspace bash init.sh
   docker-compose stop
   cd ../src
@@ -120,7 +119,7 @@ function composer_init() {
 
     cd ../laradock
     docker-compose up -d nginx postgres pgadmin
-  
+  fi
   print_msg_ble "Succeed build up Laravel project !!"
   docker-compose exec workspace bash
 }

@@ -5,7 +5,7 @@
 <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="version">
 <img src="https://img.shields.io/github/repo-size/TanisukeGoro/laraQuery?label=Github%20Size" alt="Latest Stable Version">
 <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="License"></a>
-<br><img src="https://img.shields.io/twitter/follow/okita_kamegoro?label=Follow&style=social" alt="Twitter"></a>
+<br><a href="https://twitter.com/intent/follow?screen_name=okita_kamegoro"><img src="https://img.shields.io/twitter/follow/okita_kamegoro?label=Follow&style=social" alt="Twitter"></a>
 </p>
 
 # LaraQurey- Automatically CLI Builder -
@@ -32,7 +32,7 @@ git clone https://github.com/TanisukeGoro/laraQuery.git && cd $(basename $_ .git
 # or download from https://github.com/TanisukeGoro/laraQuery
 bash install.sh
 
-#  If you can't use `laraquery` command then, run the following script
+# If you can't use `laraquery` command then, run the following script
 source ~/.bashrc
 ```
 

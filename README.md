@@ -1,0 +1,2 @@
+# laraQuery ~ Laradock Auto Builder ~
+

@@ -28,6 +28,7 @@ To install and set up LaraQuery, run:
 
 ```bash 
 git clone https://github.com/TanisukeGoro/laraQuery.git && cd $(basename $_ .git)
+
 # or download from https://github.com/TanisukeGoro/laraQuery
 bash install.sh
 

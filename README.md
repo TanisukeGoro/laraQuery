@@ -30,11 +30,18 @@ To install and set up LaraQuery, run:
 git clone https://github.com/TanisukeGoro/laraQuery.git && cd $(basename $_ .git)
 # or download from https://github.com/TanisukeGoro/laraQuery
 bash install.sh
+
+#  If you can't use `laraquery` command then, run the following script
+source ~/.bashrc
 ```
 
 You will be able to run `laraquery` command that is to create laravel project.
 
 > ※You will be able to run `laraquery` command that is to create laravel project.
+> 
+> If you can't use `laraquery` command then, run the following script: <br> 
+> `source ~/.bashrc`
+
 
 
 ```bash
@@ -103,6 +110,17 @@ $ laraquery
   - PgAdmin
   - ~~Adminer~~
 
+
+## Troubleshooting
+
+If your web browser doesn't display well after launching the project, try the following command:
+
+```bash
+cd laradock
+docker-compose exec workspace bash
+composer install
+php artisan key:generate
+```
 
 ## Feature
 

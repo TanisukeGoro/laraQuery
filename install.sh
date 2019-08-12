@@ -1,4 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/bash
+shopt -s expand_aliases
+
 scriptDir=$(cd $(dirname $0) && pwd)
 
 function print_msg_org(){
@@ -32,5 +34,3 @@ else
 #laraQuery" >> ~/.bashrc  && echo 'alias laraquery="bash ~/laraquery/larainstaller.sh"' >> ~/.bashrc
     source ~/.bashrc && print_msg_ble "Setting ~/.bashrc Succeed"
 fi
-
-

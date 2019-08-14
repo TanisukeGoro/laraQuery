@@ -91,7 +91,7 @@ $ laraquery
 
 - Web Servers :
   - Nginx
-  - Apache2 (✨Adding new feature)
+  - Apache2 (✨New feature)
   - ~~Caddy~~
 
 - Database Management Systems:

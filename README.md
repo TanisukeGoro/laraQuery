@@ -97,6 +97,7 @@ $ laraquery
 - Database Management Systems:
   - MySQL
   - PostgreSQL
+    - PostGIS (Postgres extension module (✨New feature))
   - ~~MariaDB~~
   - ~~Percona~~
   - ~~MSSQL~~

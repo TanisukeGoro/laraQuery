@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+scriptDir=`dirname $0`
+server=""
 function install_laradock() {
   git init
   print_msg_org "Install Laradock from Github....."
@@ -32,9 +34,8 @@ function replace_env() {
 function select_server() {
   print_msg_org "What Web Servers do you use?"
   ans1="NGINX"
-  ans2="Apache2.x"
+  ans2="Apache2"
   ans3="Caddy"
-
   select ANS in "$ans1" "$ans2" "$ans3"
   do
 
@@ -47,6 +48,15 @@ function select_server() {
   done
   print_msg_org "You selected"
   print_msg_ble "$REPLY ) $ANS"
+
+  if [[ $REPLY -eq 1 ]]; then
+    server='nginx'
+  elif [[ $REPLY -eq 2 ]]; then
+    server='apache2'
+    replace_env "APACHE_DOCUMENT_ROOT=/var/www/" "APACHE_DOCUMENT_ROOT=/var/www/public"
+  fi
+
+
 }
 
 function select_database() {
@@ -76,17 +86,15 @@ function select_database() {
   print_msg_ble "$REPLY ) $ANS"
 
   if [[ $REPLY -eq 1 ]]; then
-    echo "MySQL $REPLY"
     replace_env "MYSQL_VERSION=latest" "MYSQL_VERSION=5.7"
-    docker-compose up -d nginx mysql phpmyadmin
+    docker-compose up -d $server mysql phpmyadmin
     composer_init $REPLY
   elif [[ $REPLY -eq 2 ]]; then
-    echo "PostgresSQL $REPLY"
     replace_env "WORKSPACE_INSTALL_PG_CLIENT=false" "WORKSPACE_INSTALL_PG_CLIENT=true"
     replace_env "PHP_FPM_INSTALL_MYSQLI=true" "PHP_FPM_INSTALL_MYSQLI=false"
     replace_env "PHP_FPM_INSTALL_PGSQL=false" "PHP_FPM_INSTALL_PGSQL=true"
     replace_env "PHP_FPM_INSTALL_PG_CLIENT=false" "PHP_FPM_INSTALL_PG_CLIENT=true"
-    docker-compose up -d nginx postgres pgadmin
+    docker-compose up -d $server postgres pgadmin
     composer_init $REPLY
 
   fi
@@ -94,9 +102,11 @@ function select_database() {
 
 
 function composer_init() {
-  cp ../init.sh ../src
+  cp $scriptDir/init.sh ../src
   docker-compose exec workspace bash init.sh
   docker-compose stop
+
+  print_msg_org "optimization..."
   cd ../src
 
   cp -pR ./src/. ./
@@ -110,7 +120,7 @@ function composer_init() {
     replace_env "DB_USERNAME=homestead" "DB_USERNAME=default"
 
     cd ../laradock
-    docker-compose up -d nginx mysql phpmyadmin
+    docker-compose up -d $server mysql phpmyadmin
   elif [[ $1 -eq 2 ]]; then
     replace_env "DB_CONNECTION=mysql" "DB_CONNECTION=pgsql"
     replace_env "DB_HOST=127.0.0.1" "DB_HOST=postgres"
@@ -119,8 +129,8 @@ function composer_init() {
     replace_env "DB_USERNAME=homestead" "DB_USERNAME=default"
 
     cd ../laradock
-    docker-compose up -d nginx postgres pgadmin
-  
+    docker-compose up -d $server postgres pgadmin
+  fi
   print_msg_ble "Succeed build up Laravel project !!"
   docker-compose exec workspace bash
 }

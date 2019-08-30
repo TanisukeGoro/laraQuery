@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 scriptDir=`dirname $0`
 server=""
+database=""
 function install_laradock() {
   git init
   print_msg_org "Install Laradock from Github....."
@@ -86,15 +87,26 @@ function select_database() {
   print_msg_ble "$REPLY ) $ANS"
 
   if [[ $REPLY -eq 1 ]]; then
+    database=mysql
     replace_env "MYSQL_VERSION=latest" "MYSQL_VERSION=5.7"
-    docker-compose up -d $server mysql phpmyadmin
+    docker-compose up -d $server $database phpmyadmin
     composer_init $REPLY
   elif [[ $REPLY -eq 2 ]]; then
+    database=postgres
     replace_env "WORKSPACE_INSTALL_PG_CLIENT=false" "WORKSPACE_INSTALL_PG_CLIENT=true"
     replace_env "PHP_FPM_INSTALL_MYSQLI=true" "PHP_FPM_INSTALL_MYSQLI=false"
     replace_env "PHP_FPM_INSTALL_PGSQL=false" "PHP_FPM_INSTALL_PGSQL=true"
     replace_env "PHP_FPM_INSTALL_PG_CLIENT=false" "PHP_FPM_INSTALL_PG_CLIENT=true"
-    docker-compose up -d $server postgres pgadmin
+    echo "Do you want to use PostGIS that is PostgreSQL extension module (y/n)? >"
+    read answer
+    if [ "$answer" != "${answer#[Yy]}" ] ;then
+      replace_env "PHP_WORKER_INSTALL_PGSQL=false" "PHP_WORKER_INSTALL_PGSQL=true"
+      replace_env "PHP_FPM_INSTALL_POSTGIS=false" "PHP_FPM_INSTALL_POSTGIS=true"
+      sed -i '' -e 's/- postgres/- postgres-postgis/' docker-compose.yml
+      database=postgres-postgis
+    fi
+
+    docker-compose up -d $server $database pgadmin
     composer_init $REPLY
 
   fi
@@ -113,23 +125,22 @@ function composer_init() {
   rm -rf src/
 
 
-
   if [[ $1 -eq 1 ]]; then
     replace_env "DB_HOST=127.0.0.1" "DB_HOST=mysql"
     replace_env "DB_DATABASE=homestead" "DB_DATABASE=default"
     replace_env "DB_USERNAME=homestead" "DB_USERNAME=default"
 
     cd ../laradock
-    docker-compose up -d $server mysql phpmyadmin
+    docker-compose up -d $server $database phpmyadmin
   elif [[ $1 -eq 2 ]]; then
     replace_env "DB_CONNECTION=mysql" "DB_CONNECTION=pgsql"
-    replace_env "DB_HOST=127.0.0.1" "DB_HOST=postgres"
+    replace_env "DB_HOST=127.0.0.1" "DB_HOST=$database"
     replace_env "DB_PORT=3306" "DB_PORT=5432"
     replace_env "DB_DATABASE=homestead" "DB_DATABASE=default"
     replace_env "DB_USERNAME=homestead" "DB_USERNAME=default"
 
     cd ../laradock
-    docker-compose up -d $server postgres pgadmin
+    docker-compose up -d $server $database pgadmin
   fi
   print_msg_ble "Succeed build up Laravel project !!"
   docker-compose exec workspace bash

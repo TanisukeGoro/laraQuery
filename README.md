@@ -2,7 +2,7 @@
 
 <p align="center">
 <!-- <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a> -->
-<img src="https://img.shields.io/badge/version-0.1.0-blue" alt="version">
+<img src="https://img.shields.io/badge/version-0.1.2-blue" alt="version">
 <img src="https://img.shields.io/github/repo-size/TanisukeGoro/laraQuery?label=Github%20Size" alt="Latest Stable Version">
 <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="License"></a>
 <br><a href="https://twitter.com/intent/follow?screen_name=okita_kamegoro"><img src="https://img.shields.io/twitter/follow/okita_kamegoro?label=Follow&style=social" alt="Twitter"></a>
@@ -91,12 +91,13 @@ $ laraquery
 
 - Web Servers :
   - Nginx
-  - ~~Apache2~~
+  - Apache2 (✨New feature)
   - ~~Caddy~~
 
 - Database Management Systems:
   - MySQL
   - PostgreSQL
+    - PostGIS (Postgres extension module (✨New feature))
   - ~~MariaDB~~
   - ~~Percona~~
   - ~~MSSQL~~
@@ -110,6 +111,20 @@ $ laraquery
   - PhpMyAdmin
   - PgAdmin
   - ~~Adminer~~
+
+
+## Support Version Lists
+
+We Support there versions as below:
+
+| **Version** | **Release date**  | **PHP version** |
+| :---------: | :---------------: | :-------------: |
+|     5.4     | January 24, 2017  |     ≥ 5.6.4     |
+|   5.5 LTS   |  August 30, 2017  |     ≥ 7.0.0     |
+|     5.6     | February 7, 2018  |     ≥ 7.1.3     |
+|     5.7     | September 4, 2018 |     ≥ 7.1.3     |
+|     5.8     | February 26, 2019 |     ≥ 7.1.3     |
+|   6.0 LTS   | September 3, 2019 |     ≥ 7.2.0     |
 
 
 ## Troubleshooting

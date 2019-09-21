@@ -115,6 +115,32 @@ function select_database() {
 
 function composer_init() {
   cp $scriptDir/init.sh ../src
+
+  print_msg_org "Choice the Laravel versions"
+  ans1="5.5(LTS)"
+  ans2="5.6"
+  ans3="5.7"
+  ans4="5.8"
+  ans5="6.0(LTS)"
+  ans6="5.4 (not recommended)"
+
+  select ANS in "$ans1" "$ans2" "$ans3" "$ans4" "$ans5" "$ans6"
+  do
+
+    if [ -z "$ANS" ]; then
+      continue
+     else
+       break
+    fi
+
+  done
+  print_msg_org "You selected"
+  print_msg_ble "$REPLY ) $ANS"
+  ANS=${ANS/" (not recommended)"/""}
+  ANS=${ANS/"(LTS)"/""}
+  sed -i _back "s@5.5.*@$ANS.*@" ../src/init.sh
+
+
   docker-compose exec workspace bash init.sh
   docker-compose stop
 
@@ -147,12 +173,33 @@ function composer_init() {
 }
 
 
+function select_phpversions(){
+  print_msg_org "Choice the PHP versions"
+  7.3 - 7.2 - 7.1 - 7.0 - 5.6
+  ans1="7.3"
+  ans2="7.2"
+  ans3="7.1"
+  ans4="7.0"
+  ans5="5.6 (not recommended)"
+  select ANS in "$ans1" "$ans2" "$ans3" "$ans4" "$ans5"
+  do
+
+    if [ -z "$ANS" ]; then
+      continue
+     else
+       break
+    fi
+
+  done
+  ANS=${ANS/" (not recommended)"/""}
+  replace_env "PHP_VERSION=7.2" "PHP_VERSION=$ANS"
+}
+
 function laradock_init() {
   replace_env "APP_CODE_PATH_HOST=../" "APP_CODE_PATH_HOST=../src"
   replace_env "DATA_PATH_HOST=~/.laradock/data" "DATA_PATH_HOST=../.laradock/data"
 
   print_msg_org "Input Project Name"
-
   dirName=`dirname $(pwd)`
 
   ans1=`basename ${dirName}`
@@ -179,6 +226,7 @@ function laradock_init() {
 function main(){
   install_laradock
   laradock_init
+  select_phpversions
   select_server
   select_database
 }

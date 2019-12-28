@@ -92,20 +92,14 @@ $ laraquery
 - Web Servers :
   - Nginx
   - Apache2 (✨New feature)
-  - ~~Caddy~~
-
+  <!-- - ~~Caddy~~ -->
+  
 - Database Management Systems:
   - MySQL
   - PostgreSQL
     - PostGIS (Postgres extension module (✨New feature))
-  - ~~MariaDB~~
-  - ~~Percona~~
-  - ~~MSSQL~~
-  - ~~MongoDB~~
-  - ~~Neo4j~~
-  - ~~CouchDB~~
-  - ~~RethinkDB~~
-  - ~~Cassandra~~
+  - ~~SQLite~~
+  - ~~SQL Server(MSSQL)~~
 
 - Database Management Apps:
   - PhpMyAdmin

@@ -93,7 +93,7 @@ $ laraquery
   - Nginx
   - Apache2 (✨New feature)
   <!-- - ~~Caddy~~ -->
-
+  
 - Database Management Systems:
   - MySQL
   - PostgreSQL
